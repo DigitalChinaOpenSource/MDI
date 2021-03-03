@@ -30,8 +30,10 @@ jobs:
       with:
         go-version: 1.15
 
-    - name: Build
-      run: go build testproject
+    - name: Build agent
+      run: go build cmd/agent/main.go
+    - name: Build kernel
+      run: go build cmd/kernel/main.go
     - name: Test
       run:  go test ./... -v
     - name: TestCover
