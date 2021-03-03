@@ -348,3 +348,12 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+/.vs
+/.idea
+vendor
+cover.out
+.scannerwork/.sonar_lock
+.scannerwork/report-task.txt
+.scannerwork/sonar-go-to-slang-windows-amd64.exe
+cmd/kernel/__debug_bin

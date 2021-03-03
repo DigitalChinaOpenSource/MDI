@@ -1,0 +1,173 @@
+# Copyright (c) 2021 Digital China Group Co.,Ltd
+# Licensed under the GNU General Public License, Version 3.0 (the "License").
+# You may not use this file except in compliance with the license.
+# You may obtain a copy of the license at
+#     https://www.gnu.org/licenses/
+#
+# This program is free; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; version 3.0 of the License.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+---
+# 创建命名空间
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: mdi-kernel      # 项目空间名称
+  labels:
+    name: mdi-kernel    # 标签
+---
+#
+# kernel
+#
+# 部署工作负载
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-kernel   # 负载名称
+  namespace: mdi-kernel     # 所在namespace
+spec:
+  selector:
+    matchLabels:
+      workloadselector: deployment-mdi-kernel       # 选择器 选择标签
+  replicas: 1                                       # pod 数量
+  template:
+    metadata:
+      labels:
+        workloadselector: deployment-mdi-kernel     # 标签
+    spec:
+      containers:
+        - name: kernel                              # 容器名称
+          image: harbor.dev.wh.digitalchina.com/mdi/kernel:build-$BUILD_NUMBER
+          ports:
+            - containerPort: 8080                   # 端口号
+              name: app                             # 名称
+              protocol: TCP                         # 协议
+      imagePullSecrets:
+        - name: harbor-yuchonga-brilj
+      dnsPolicy: ClusterFirst                       # dRancherNamespace规则
+---
+#
+# agent
+#
+# 部署工作负载
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-agent                        # 负载名称
+  namespace: mdi-kernel                         # 所在namespace
+spec:
+  selector:
+    matchLabels:
+      workloadselector: deployment-mdi-agent    # 选择器 选择标签
+  replicas: 1                                   # pod 数量
+  template:
+    metadata:
+      labels:
+        workloadselector: deployment-mdi-agent      # 标签
+    spec:
+      containers:
+        - name: agent                               # 容器名称
+          image: harbor.dev.wh.digitalchina.com/mdi/agent:build-$BUILD_NUMBER
+          ports:
+            - containerPort: 8081                   # 端口号
+              name: app                             # 名称
+              protocol: TCP                         # 协议
+          env:
+            - name: Environment_Id
+              value: a77f794f-e9bf-40cb-a545-53930150dde6
+            - name: Environment_Host
+              value: mdi-agent.dev.wh.digitalchina.com
+      imagePullSecrets:
+        - name: harbor-yuchonga-brilj
+      dnsPolicy: ClusterFirst                       # dRancherNamespace规则
+---
+#
+# Kernel
+#
+# 创建Service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    cattle.io/creator: norman
+  name: service-kernel          # service名称
+  namespace: mdi-kernel
+spec:
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    workloadselector: deployment-mdi-kernel
+  type: ClusterIP
+---
+#
+# agent
+#
+# 创建Service
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    cattle.io/creator: norman
+  name: service-agent           # service名称
+  namespace: mdi-kernel
+spec:
+  ports:
+    - port: 8081
+      protocol: TCP
+      targetPort: 8081
+  selector:
+    workloadselector: deployment-mdi-agent
+  type: ClusterIP
+---
+#
+# kernel
+#
+# 创建ingress
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-kernel          # ingress名称
+  namespace: mdi-kernel         # 命名空间
+spec:
+  rules:
+    - host: mdi-kernel.dev.wh.digitalchina.com    # 设置访问地址
+      http:
+        paths:
+          - backend:
+              serviceName: service-kernel         # 服务名称
+              servicePort: 8080                   # 访问端口
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - mdi-kernel.dev.wh.digitalchina.com
+      secretName: whdc-cert
+---
+#
+# agent
+#
+# 创建ingress
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-agent                           # ingress名称
+  namespace: mdi-kernel                         # 命名空间
+spec:
+  rules:
+    - host: mdi-agent.dev.wh.digitalchina.com   # 设置访问地址
+      http:
+        paths:
+          - backend:
+              serviceName: service-agent        # 服务名称
+              servicePort: 8081                 # 访问端口
+            pathType: ImplementationSpecific
+  tls:
+    - hosts:
+      - mdi-agent.dev.wh.digitalchina.com
+      secretName: whdc-cert

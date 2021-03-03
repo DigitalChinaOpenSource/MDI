@@ -1,0 +1,74 @@
+<!--
+Copyright (c) 2021 Digital China Group Co.,Ltd
+Licensed under the GNU General Public License, Version 3.0 (the "License").
+You may not use this file except in compliance with the license.
+You may obtain a copy of the license at
+    https://www.gnu.org/licenses/
+
+This program is free; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; version 3.0 of the License.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+-->
+
+<?xml version="1.0" encoding="utf-8" ?>
+<model collation="Chinese_PRC_CI_AS" modelingVersion="1.0" owner="yuchonga@dcclouds.com">
+    <entities>
+        <entity displayName="表1" isOriginal="true" schemaName="TableA"
+                clustered="IX_TableA_Name">
+            <fields>
+                <field displayName="Id" isOriginal="true" schemaName="Id" isNull="false" dataType="integer">
+                    <typeOption autoIncrement="true" length="64"></typeOption>
+                </field>
+                <field displayName="名称" isOriginal="false" schemaName="Name" isNull="true" dataType="string">
+                    <typeOption length="50"></typeOption>
+                    <defaultConstraint schemaName="DF_TableA_Name" value="AAA"/>
+                </field>
+            </fields>
+            <uniqueConstraints>
+                <unique schemaName="UQ_TableA_Name" displayName="UQ_TableA_Name">
+                    <for column="Id" directionASC="true" ></for>
+                    <for column="Name" directionASC="true" ></for>
+                </unique>
+                <unique schemaName="UQ_TableA_Name2" displayName="UQ_TableA_Name">
+                    <for column="Id" directionASC="true" ></for>
+                    <for column="Name" directionASC="true" ></for>
+                </unique>
+            </uniqueConstraints>
+            <indexes>
+                <index schemaName="IX_TableA_Id" displayName="IX_TableA_Id" isPrimary="true">
+                    <for column="Id" directionASC="true" ></for>
+                </index>
+                <index schemaName="IX_TableA_Name" displayName="IX_TableA_Name" isPrimary="false">
+                    <for column="Id" directionASC="true" ></for>
+                    <for column="Name" directionASC="true" ></for>
+                </index>
+            </indexes>
+        </entity>
+
+        <entity displayName="表2" isOriginal="true" schemaName="TableB"
+                clustered="IX_TableA_Name">
+            <fields>
+                <field displayName="Id" isOriginal="true" schemaName="Id" isNull="false" dataType="integer">
+                    <typeOption autoIncrement="true" length="64"></typeOption>
+                </field>
+                <field displayName="名称" isOriginal="false" schemaName="Name" isNull="true" dataType="string">
+                    <typeOption length="50"></typeOption>
+                </field>
+                <field displayName="名称2" isOriginal="false" schemaName="Name1" isNull="true" dataType="string">
+                    <typeOption length="50"></typeOption>
+                </field>
+            </fields>
+        </entity>
+    </entities>
+    <foreignKeys>
+        <foreignKey foreignField="BId" foreignEntity="TableB"
+                    fromField="Id" fromEntity="TableA"
+                    schemaName="schemaName" displayName="DisplayName"
+                    cascadeOption="CASCADE"/>
+    </foreignKeys>
+    <renameActions></renameActions>
+</model>

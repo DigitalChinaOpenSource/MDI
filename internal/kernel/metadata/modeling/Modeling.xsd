@@ -1,0 +1,491 @@
+<!--
+Copyright (c) 2021 Digital China Group Co.,Ltd
+Licensed under the GNU General Public License, Version 3.0 (the "License").
+You may not use this file except in compliance with the license.
+You may obtain a copy of the license at
+    https://www.gnu.org/licenses/
+
+This program is free; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; version 3.0 of the License.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+-->
+
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="model">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="entities" maxOccurs="1" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>模型中所有的实体</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="entity" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                  <xs:documentation>实体</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:all>
+                    <xs:element name="fields" minOccurs="1" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>该实体中所有的字段</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="unbounded" name="field">
+                            <xs:annotation>
+                              <xs:documentation>字段</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="DataType" minOccurs="1" maxOccurs="1">
+                                  <xs:annotation>
+                                    <xs:documentation>字段数据类型</xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:choice>
+                                      <xs:element name="integer">
+                                        <xs:annotation>
+                                          <xs:documentation>整数类型</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:complexType>
+                                          <xs:attribute name="autoIncrement" type="xs:boolean" use="required">
+                                            <xs:annotation>
+                                              <xs:documentation>自增长</xs:documentation>
+                                            </xs:annotation>
+                                          </xs:attribute>
+                                          <xs:attribute name="size" type="integerSize" use="required">
+                                            <xs:annotation>
+                                              <xs:documentation>数字大小</xs:documentation>
+                                            </xs:annotation>
+                                          </xs:attribute>
+                                        </xs:complexType>
+                                      </xs:element>
+                                      <xs:element name="string">
+                                        <xs:annotation>
+                                          <xs:documentation>字符串类型</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:complexType>
+                                          <xs:attribute name="size" type="stringSize" use="required">
+                                            <xs:annotation>
+                                              <xs:documentation>字符串长度</xs:documentation>
+                                            </xs:annotation>
+                                          </xs:attribute>
+                                        </xs:complexType>
+                                      </xs:element>
+                                      <xs:element name="decimal">
+                                        <xs:annotation>
+                                          <xs:documentation>数值型</xs:documentation>
+                                        </xs:annotation>
+                                        <xs:complexType>
+                                          <xs:attribute name="length" type="xs:unsignedByte" use="required">
+                                            <xs:annotation>
+                                              <xs:documentation>数字长度</xs:documentation>
+                                            </xs:annotation>
+                                          </xs:attribute>
+                                          <xs:attribute name="float" type="xs:unsignedByte" use="required">
+                                            <xs:annotation>
+                                              <xs:documentation>小数位数</xs:documentation>
+                                            </xs:annotation>
+                                          </xs:attribute>
+                                        </xs:complexType>
+                                      </xs:element>
+                                      <xs:element name="dataTime">
+                                        <xs:annotation>
+                                          <xs:documentation>日期时间类型</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="boolean">
+                                        <xs:annotation>
+                                          <xs:documentation>布尔型</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                      <xs:element name="money">
+                                        <xs:annotation>
+                                          <xs:documentation>货币型</xs:documentation>
+                                        </xs:annotation>
+                                      </xs:element>
+                                    </xs:choice>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="defaultConstraint" minOccurs="0" maxOccurs="1">
+                                  <xs:annotation>
+                                    <xs:documentation>字段默认</xs:documentation>
+                                  </xs:annotation>
+                                  <xs:complexType>
+                                    <xs:attribute name="SchemaName" type="xs:string" use="required">
+                                      <xs:annotation>
+                                        <xs:documentation>字段默认值名，应唯一</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:attribute>
+                                    <xs:attribute name="value" type="xs:string" use="required">
+                                      <xs:annotation>
+                                        <xs:documentation>字段默认值(目前就做常量值吧，后续会需要加表达式的)</xs:documentation>
+                                      </xs:annotation>
+                                    </xs:attribute>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="displayName" type="xs:string" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>字段显示名，应保证唯一性</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="isOriginal" type="xs:boolean" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>是否系统内置字段。如果为true，则不准删除修改</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="SchemaName" type="xs:string" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>字段名，应保证唯一性</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="isNull" type="xs:boolean" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>是否允许字段值为空</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                      <xs:unique name="fieldDisplayNameMustBeUnique">
+                        <xs:selector xpath="field"/>
+                        <xs:field xpath="@displayName"/>
+                      </xs:unique>
+                      <xs:unique name="fieldSchemaNameMustBeUnique">
+                        <xs:selector xpath="field"/>
+                        <xs:field xpath="@SchemaName"/>
+                      </xs:unique>
+                    </xs:element>
+                    <xs:element name="uniqueConstraints" maxOccurs="1" minOccurs="0">
+                      <xs:annotation>
+                        <xs:documentation>本实体中所有的唯一键</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="unique"  maxOccurs="unbounded" minOccurs="0">
+                            <xs:annotation>
+                              <xs:documentation>唯一键，支持多列唯一</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="for" minOccurs="1" maxOccurs="3" type="constraintsFor">
+                                  <xs:annotation>
+                                    <xs:documentation>唯一键列。支持多项，表示多列唯一</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="SchemaName" type="xs:string" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>名称，应确保唯一性</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="displayName" type="xs:string" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>显示名</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="indexes" minOccurs="0" maxOccurs="1">
+                      <xs:annotation>
+                        <xs:documentation>该实体中所有的索引</xs:documentation>
+                      </xs:annotation>
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="index" minOccurs="1" maxOccurs="unbounded">
+                            <xs:annotation>
+                              <xs:documentation>索引。支持多列索引</xs:documentation>
+                            </xs:annotation>
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="for" minOccurs="1" maxOccurs="3" type="constraintsFor">
+                                  <xs:annotation>
+                                    <xs:documentation>索引列。支持多项，表示多列索引</xs:documentation>
+                                  </xs:annotation>
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="SchemaName" type="xs:string" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>名称，应保持全局唯一</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="displayName" type="xs:string" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>显示名</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                              <xs:attribute name="isPrimary" type="xs:boolean" use="required">
+                                <xs:annotation>
+                                  <xs:documentation>是否主键</xs:documentation>
+                                </xs:annotation>
+                              </xs:attribute>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:all>
+                  <xs:attribute name="displayName" type="xs:string" use="required">
+                    <xs:annotation>
+                      <xs:documentation>显示名，应确保不重复</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="isOriginal" type="xs:boolean" use="required">
+                    <xs:annotation>
+                      <xs:documentation>是否系统内置。内置的实体是禁止修改的（但是可以添加字段）</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="SchemaName" type="xs:string" use="required">
+                    <xs:annotation>
+                      <xs:documentation>表名，应保证唯一性</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="Clustered" type="xs:string" use="required">
+                    <xs:annotation>
+                      <xs:documentation>聚集索引的Id，可以是主键Id、唯一键Id或索引Id</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+          <xs:unique name="entityDisplayNameMustBeUnique">
+            <xs:selector xpath="entity"/>
+            <xs:field xpath="@displayName"/>
+          </xs:unique>
+          <xs:unique name="entitySchemaNameMustBeUnique">
+            <xs:selector xpath="entity"/>
+            <xs:field xpath="@SchemaName"/>
+          </xs:unique>
+        </xs:element>
+        <xs:element name="foreignKeys" maxOccurs="1" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>模型中所有的外键</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="foreignKey" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>外键</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="foreignField" type="xs:string" use="required">
+                    <xs:annotation>
+                      <xs:documentation>外键列的Id</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="foreignEntity" type="xs:string" use="required">
+                    <xs:annotation>
+                      <xs:documentation>外键表的Id</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="fromField" type="xs:string" use="required">
+                    <xs:annotation>
+                      <xs:documentation>主键列的Id</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="fromEntity" type="xs:string" use="required">
+                    <xs:annotation>
+                      <xs:documentation>主键列的Id</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="SchemaName" type="xs:string" use="required">
+                    <xs:annotation>
+                      <xs:documentation>外键列的架构名，建议命名为"FK_表_主键列"格式</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="DisplayName" type="xs:string" use="required">
+                    <xs:annotation>
+                      <xs:documentation>外键的显示名，默认与schemaName一致，让设计者可以改成易读的用于界面显示</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="cascadeOption" use="required">
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:enumeration value="CASCADE">
+                          <xs:annotation>
+                            <xs:documentation>在父表上update/delete记录时，同步update/delete掉子表的匹配记录</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="SET NULL">
+                          <xs:annotation>
+                            <xs:documentation>在父表上update/delete记录时，将子表上匹配记录的列设为null (要注意子表的外键列不能为not null)</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="NO ACTION">
+                          <xs:annotation>
+                            <xs:documentation>在父表上update/delete记录时，如果由外键约束存在则禁止执行update/delete</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+          <xs:unique name="foreignKeySchemaNameMustBeUnique">
+            <xs:selector xpath="foreignKey"/>
+            <xs:field xpath="@SchemaName"/>
+          </xs:unique>
+        </xs:element>
+		<xs:element name="renameActions" maxOccurs="1" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>重命名记录</xs:documentation>
+          </xs:annotation>
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="rename" maxOccurs="unbounded" minOccurs="0">
+                <xs:annotation>
+                  <xs:documentation>重命名</xs:documentation>
+                </xs:annotation>
+                <xs:complexType>
+                  <xs:attribute name="target" use="required">
+                    <xs:annotation>
+                      <xs:documentation>重命名对象</xs:documentation>
+                    </xs:annotation>
+                    <xs:simpleType>
+                      <xs:restriction base="xs:string">
+                        <xs:enumeration value="table">
+                          <xs:annotation>
+                            <xs:documentation>表</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                        <xs:enumeration value="field">
+                          <xs:annotation>
+                            <xs:documentation>字段</xs:documentation>
+                          </xs:annotation>
+                        </xs:enumeration>
+                      </xs:restriction>
+                    </xs:simpleType>
+                  </xs:attribute>
+                  <xs:attribute name="id" type="xs:string" use="required">
+                    <xs:annotation>
+                      <xs:documentation>操作的Id</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="createdOn" type="xs:dateTime" use="required">
+                    <xs:annotation>
+                      <xs:documentation>操作的时间</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="before" type="xs:string" use="required">
+                    <xs:annotation>
+                      <xs:documentation>变更前内容</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="after" type="xs:string" use="required">
+                    <xs:annotation>
+                      <xs:documentation>变更后内容</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                  <xs:attribute name="TableName" type="xs:string">
+                    <xs:annotation>
+                      <xs:documentation>重命名字段时所在的表名</xs:documentation>
+                    </xs:annotation>
+                  </xs:attribute>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+			<xs:unique name="renameActionMustBeUnique">
+				<xs:selector xpath="rename"/>
+				<xs:field xpath="@id"/>
+			</xs:unique>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="collation" type="xs:string" use="optional" default="Chinese_PRC_CI_AS" form="unqualified">
+        <xs:annotation>
+          <xs:documentation>数据库语言集Collation设置，默认值Chinese_PRC_CI_AS。界面上可以作为高级选项提供</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="modelingVersion" type="xs:decimal" use="required">
+        <xs:annotation>
+          <xs:documentation>本模型的版本，decimal格式，即只能有一个小数点，如1.0</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+      <xs:attribute name="owner" type="xs:string" use="required">
+        <xs:annotation>
+          <xs:documentation>最后导出本模型者的邮箱，以便在导入时知道该模型是谁的</xs:documentation>
+        </xs:annotation>
+      </xs:attribute>
+    </xs:complexType>
+    <xs:unique name="defaultConstraintMustBeUnique">
+      <xs:selector xpath="entities/entity/fields/field/defaultConstraint"/>
+      <xs:field xpath="@SchemaName"/>
+    </xs:unique>
+    <xs:unique name="uniqueConstraintsMustBeUnique">
+      <xs:selector xpath="entities/entity/uniqueConstraints/unique"/>
+      <xs:field xpath="@SchemaName"/>
+    </xs:unique>
+    <xs:unique name="indexesConstraintsMustBeUnique">
+      <xs:selector xpath="entities/entity/indexes/index"/>
+      <xs:field xpath="@SchemaName"/>
+    </xs:unique>
+  </xs:element>
+
+  <xs:simpleType name="integerSize">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="short">
+        <xs:annotation>
+          <xs:documentation>Int16</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="normal">
+        <xs:annotation>
+          <xs:documentation>Int32</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="long">
+        <xs:annotation>
+          <xs:documentation>Int64</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="stringSize">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="short">
+        <xs:annotation>
+          <xs:documentation>50字符以下</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="normal">
+        <xs:annotation>
+          <xs:documentation>2000字符以下</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="blob">
+        <xs:annotation>
+          <xs:documentation>大文本</xs:documentation>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="constraintsFor">
+    <xs:attribute name="column" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>Field的SchemaName</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="directionASC" type="xs:boolean" use="required">
+      <xs:annotation>
+        <xs:documentation>正序还是逆序。True是ASC，False是DESC</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+</xs:schema>

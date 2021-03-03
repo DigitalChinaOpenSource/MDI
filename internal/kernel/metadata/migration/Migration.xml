@@ -1,0 +1,179 @@
+<!--
+Copyright (c) 2021 Digital China Group Co.,Ltd
+Licensed under the GNU General Public License, Version 3.0 (the "License").
+You may not use this file except in compliance with the license.
+You may obtain a copy of the license at
+    https://www.gnu.org/licenses/
+
+This program is free; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; version 3.0 of the License.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+-->
+
+<?xml version="1.0" encoding="utf-8" ?>
+<migration>
+  <removeForeignKey>
+    <action foreignEntity="tableA" SchemaName="FK_table1_field1">
+      <result duration="100" success="true"/>
+    </action>
+    <action foreignEntity="tableA" schemaName="FK_table1_field2">
+      <result duration="1000" success="false">失败原因啊啊啊啊啊32342314</result>
+    </action>
+  </removeForeignKey>
+  <createForeignKey>
+    <action schemaName="fk_table1_table2" displayName="FK1" foreignEntity="A" foreignField="B" fromEntity="C" fromField="D" cascadeOption="CASCADE">
+      <result duration="200" success="true"/>
+    </action>
+    <action schemaName="fk_table1_table2" displayName="FK1" foreignEntity="A" foreignField="B" fromEntity="C" fromField="D" cascadeOption="CASCADE">
+      <result duration="200" success="true">失败原因啊啊啊啊</result>
+    </action>
+  </createForeignKey>
+  <changeForeignKey>
+    <action schemaName="fk_user_id" displayName="FK1" cascadeOption="CASCADE">
+      <result duration="200" success="true">失败原因啊啊啊啊</result>
+    </action>
+  </changeForeignKey>
+
+  <createEntity>
+    <action displayName="表1" isOriginal="true" schemaName="TableA" Clustered="IX_TableA_Name">
+      <fields>
+        <field displayName="Id" isOriginal="true" SchemaName="Id" isNull="false" DataType="integer">
+          <typeOption autoIncrement="true" length="64"></typeOption>
+        </field>
+        <field displayName="名称" isOriginal="false" SchemaName="Name" isNull="true" DataType="string">
+          <typeOption length="50"></typeOption>
+          <defaultConstraint SchemaName="DF_TableA_Name" value="AAA"/>
+        </field>
+      </fields>
+      <uniqueConstraints>
+        <unique SchemaName="UQ_TableA_Name" displayName="UQ_TableA_Name">
+          <for column="Id" directionASC="true" ></for>
+          <for column="Name" directionASC="true" ></for>
+        </unique>
+        <unique SchemaName="UQ_TableA_Name2" displayName="UQ_TableA_Name">
+          <for column="Id" directionASC="true" ></for>
+          <for column="Name" directionASC="true" ></for>
+        </unique>
+      </uniqueConstraints>
+      <indexes>
+        <index SchemaName="IX_TableA_Name" displayName="IX_TableA_Name" isPrimary="true">
+          <for column="Id" directionASC="true" ></for>
+          <for column="Name" directionASC="true" ></for>
+        </index>
+        <index SchemaName="IX_TableA_Name2" displayName="IX_TableA_Name" isPrimary="false">
+          <for column="Id" directionASC="true" ></for>
+          <for column="Name" directionASC="false" ></for>
+        </index>
+      </indexes>
+      <result duration="1000" success="false">失败原因啊啊啊啊啊</result>
+    </action>
+    <action displayName="表2" isOriginal="true" schemaName="TableB" Clustered="IX_TableA_Name">
+      <fields>
+        <field displayName="Id" isOriginal="true" SchemaName="Id" isNull="false" DataType="integer">
+          <typeOption autoIncrement="true" length="64"></typeOption>
+        </field>
+        <field displayName="名称" isOriginal="false" SchemaName="Name" isNull="true" DataType="string">
+          <typeOption length="50"></typeOption>
+          <defaultConstraint SchemaName="DF_TableA_Name" value="AAA"/>
+        </field>
+      </fields>
+      <uniqueConstraints>
+        <unique schemaName="UQ_TableA_Name" displayName="UQ_TableA_Name">
+          <for column="Id" directionASC="true"></for>
+          <for column="Name" directionASC="true"></for>
+        </unique>
+        <unique schemaName="UQ_TableA_Name2" displayName="UQ_TableA_Name">
+          <for column="Id" directionASC="true"></for>
+          <for column="Name" directionASC="true"></for>
+        </unique>
+      </uniqueConstraints>
+      <indexes>
+        <index SchemaName="IX_TableA_Name" displayName="IX_TableA_Name" isPrimary="true">
+          <for column="Id" directionASC="true" ></for>
+        </index>
+        <index SchemaName="IX_TableA_Name2" displayName="IX_TableA_Name" isPrimary="false">
+          <for column="Id" directionASC="true" ></for>
+          <for column="Name" directionASC="true" ></for>
+        </index>
+      </indexes>
+      <result duration="1000" success="false">失败原因啊啊啊啊啊</result>
+    </action>
+  </createEntity>
+  <removeEntity>
+    <action SchemaName="Entity1">
+      <result duration="100" success="true"/>
+    </action>
+  </removeEntity>
+
+  <changeEntity>
+    <action SchemaName="表1" newSchemaName="表A" ignoreExistsData="true" isOriginal="false" displayName="名称" newDisplayName="名称2">
+      <newFields>
+        <field displayName="Id" isOriginal="false" SchemaName="Id" isNull="false" DataType="integer">
+          <typeOption autoIncrement="true" length="64"></typeOption>
+        </field>
+        <field displayName="名称" isOriginal="false" SchemaName="Name" isNull="true" DataType="string">
+          <typeOption length="50"></typeOption>
+          <defaultConstraint SchemaName="DF_TableA_Name" value="AAA"/>
+        </field>
+      </newFields>
+      <newUniqueConstraints>
+        <unique schemaName="UQ_TableA_Name" displayName="UQ_TableA_Name">
+          <for column="Id" directionASC="true"></for>
+          <for column="Name" directionASC="true"></for>
+        </unique>
+        <unique schemaName="UQ_TableA_Name2" displayName="UQ_TableA_Name">
+          <for column="Id" directionASC="true"></for>
+          <for column="Name" directionASC="true"></for>
+        </unique>
+      </newUniqueConstraints>
+      <newIndexes>
+        <index SchemaName="IX_TableA_Name" displayName="IX_TableA_Name" isPrimary="true">
+          <for column="Id" directionASC="true" ></for>
+          <for column="Name" directionASC="true" ></for>
+        </index>
+        <index SchemaName="IX_TableA_Name2" displayName="IX_TableA_Name" isPrimary="false">
+          <for column="Id" directionASC="true" ></for>
+          <for column="Name" directionASC="true" ></for>
+        </index>
+      </newIndexes>
+      <removeFields>
+        <field SchemaName="名称2">
+          <result duration="100" success="true"/>
+        </field>
+        <field SchemaName="名称3">
+          <result duration="100" success="true"/>
+        </field>
+      </removeFields>
+      <removeUniqueConstraints>
+        <unique SchemaName="UQ_TableA_Name1">
+          <result duration="100" success="true"/>
+        </unique>
+        <unique SchemaName="UQ_TableA_Name2">
+          <result duration="100" success="true"/>
+        </unique>
+      </removeUniqueConstraints>
+      <removeIndexes>
+        <index SchemaName="IX_TableA_Name1">
+          <result duration="100" success="true"/>
+        </index>
+        <index SchemaName="IX_TableA_Name2">
+          <result duration="100" success="true"/>
+        </index>
+      </removeIndexes>
+      <modifyFields>
+        <field displayName="名称" newDisplayName="名称2" isOriginal="false" schemaName="Name" newSchemaName="nameA" isNull="true" dataType="string">
+          <typeOption length="50"></typeOption>
+          <defaultConstraint SchemaName="DF_TableA_Name" value="AAA"/>
+        </field>
+      </modifyFields>
+    </action>
+  </changeEntity>
+  <renameActions>
+    <rename target="table" id="100" createdOn="2020-09-03T08:00:00" before="TableA" after="TableAAA"></rename>
+    <rename target="field" id="101" createdOn="2020-09-03T08:00:00" before="FieldA" after="FieldAAA" TableName="TableA"></rename>
+  </renameActions>
+</migration>
