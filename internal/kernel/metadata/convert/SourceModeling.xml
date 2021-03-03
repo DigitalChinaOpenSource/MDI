@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8" ?>
 <!--
 Copyright (c) 2021 Digital China Group Co.,Ltd
 Licensed under the GNU General Public License, Version 3.0 (the "License").
@@ -13,8 +14,6 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 -->
-
-<?xml version="1.0" encoding="utf-8" ?>
 <model collation="Chinese_PRC_CI_AS" modelingVersion="1.0" owner="yuchonga@dcclouds.com">
     <entities>
         <entity displayName="表1" isOriginal="true" schemaName="TableOne"
