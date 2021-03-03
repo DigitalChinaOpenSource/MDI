@@ -1,6 +1,7 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Build](https://github.com/DigitalChinaOpenSource/MDI-kernel/actions/workflows/build.yml/badge.svg)](https://github.com/DigitalChinaOpenSource/MDI-kernel/actions/workflows/build.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=MDI-kernel&metric=alert_status)](https://sonarcloud.io/dashboard?id=MDI-kernel)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=MDI-kernel&metric=bugs)](https://sonarcloud.io/dashboard?id=MDI-kernel)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=MDI-kernel&metric=code_smells)](https://sonarcloud.io/dashboard?id=MDI-kernel)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=MDI-kernel&metric=ncloc)](https://sonarcloud.io/dashboard?id=MDI-kernel)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=MDI-kernel&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=MDI-kernel)
