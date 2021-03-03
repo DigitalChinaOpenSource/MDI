@@ -1,0 +1,44 @@
+name: Build
+
+on: # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#onpushpull_requestpaths
+  push:
+    branches: 
+      - main
+      - dev
+      - test
+      - 'releases/**'   # Push events to branches matching releases/10,releases/8
+    tags:
+      - v1      # Push events to v1 tag
+      - V1.*    # Push events to v1.0, v1.1, and v1.9 tags
+  pull_request:
+    branches: 
+      - main
+      - dev
+      - test
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2 # 使用sonarcloud 检测
+      with:
+        # Disabling shallow clone is recommended for improving relevancy of reporting
+        fetch-depth: 0
+    - name: Set up Go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.15
+
+    - name: Build
+      run: go build testproject
+    - name: Test
+      run:  go test ./... -v
+    - name: TestCover
+      run: go test ./... -coverprofile=coverage.out
+    - name: SonarCloud Scan
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  
