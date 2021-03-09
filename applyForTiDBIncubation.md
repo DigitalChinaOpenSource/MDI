@@ -17,10 +17,11 @@ We note that there is no dedicated data service tool in the TiDB ecosystem, i.e.
 This project mainly addresses the following issues.
 - Centralized data management. TiDB is naturally suitable for storing large amount of data and becoming a data center, then the management of these data is required to have special tools. the functions currently designed by MDI include the management of data models and their versions, the management of model relationships, and the management of data access rights.
 - Flexible data query. Most of the Automatic API generation Tool on the market currently generates traditional APIs like RestFul, which is less flexible and less available. Then MDI also supports custom queries like GraphQL and OData to improve the flexibility of system queries and the availability of APIs, and really reduce the back-end development workload. In addition, in order to support more complex queries, you can consider SQL wrapping function to wrap a segment SQL query into an API.
-- Flexible data processing. combined crosstalk function of APIs. Encapsulate a simple business logic and become a RestFul API by arranging add, delete, and check APIs with some transactivity.
-- TiDB currently does not support triggers, and the implementation of related functions requires users to operate at the business level, which is tedious.
+- Flexible data processing. Combined crosstalk function of APIs. Encapsulate a simple business logic and become a RestFul API by arranging add, delete, and check APIs with some transactivity.
+- Alternatives to triggers.TiDB currently does not support triggers, and the implementation of related functions requires users to operate at the business level, which is tedious.MDI can provide a unified URL callback function to achieve a trigger-like effect.
 
 ## Estimated Time
 6 Months
 
 ## RFC/Proposal
+我们公司内部已经实现了一个POC版本。已经具备了自动生成restful API和GraphQL、OData API的相关功能，上文提到的其他功能还待完善。另外，代码规范、单元测试都有待完善。我们现在准备将这个项目开源，借助社区的力量让其焕发更多的生命力。
