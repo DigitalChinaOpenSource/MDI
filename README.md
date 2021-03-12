@@ -11,10 +11,9 @@
 
 # Introduction
 
-This is part of Dc low code projects for data layer.
+This product generates highly available, high-performance and flexible database storage tier services for developers in a data modeling approach, providing industry-standard data interfaces.
+Developers only need to set up the entity relationship diagram to get the highly available and high performance Web API fully automatically, and can complete the distribution and upgrade of data interface through simple operation steps or automated operation. MDI is our data interface service product designed for this purpose.
 
-# Reference links
-[Components & licences](ComponentsApplied.MD)
 
 ## What's contained in this project
 
